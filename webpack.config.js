@@ -1,16 +1,18 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const BabiliPlugin = require('babili-webpack-plugin');
+const MinifyPlugin = require('babel-minify-webpack-plugin');
+const webpack = require('webpack');
 
 const plugins = [
   new ExtractTextPlugin({
     filename: './bundle.css',
     allChunks: true,
   }),
+  new webpack.optimize.ModuleConcatenationPlugin(),
 ];
 
 module.exports = function webpackStuff(env) {
-  if (env === 'production') plugins.push(new BabiliPlugin());
+  if (env === 'production') plugins.push(new MinifyPlugin());
 
   return {
     entry: [
